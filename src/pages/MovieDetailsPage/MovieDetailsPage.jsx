@@ -5,7 +5,6 @@ import { getMovieDetails } from '../../components/services/api';
 
 function MovieDetailsPage() {
     const { movieId } = useParams();
-    console.log('movieId:', movieId);
     const location = useLocation();
     const backLinkHref = useRef(location.state?.from ?? '/movies');
     const [movie, setMovie] = useState(null);
@@ -28,11 +27,11 @@ function MovieDetailsPage() {
 
     return (
         <div className={s.container}>
-            <Link to={backLinkHref} className={s.backlink}>Go Back</Link>
+            <Link to={backLinkHref.current} className={s.backlink}>Go Back</Link>
             <div className={s.details}>
                 {poster_path && (
                     <img
-                        src="{`https://image.tmdb.org/t/p/w300${poster_path}`}"
+                        src={`https://image.tmdb.org/t/p/w300${poster_path}`}
                         alt="{title}"
                         width="300"
                     />

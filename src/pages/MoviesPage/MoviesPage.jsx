@@ -7,16 +7,16 @@ import MovieList from '../../components/MovieList/MovieList';
 function MoviesPage() {
     const [movies, setMovies] = useState([]);
     const [searchParams, setSearchParams] = useSearchParams();
-    const query = searchParams.get(query) || '';
+    const query = searchParams.get('query') || '';
 
     useEffect(() => {
         if (!query) return;
         async function fetchMoviesPage() {
             try {
-                const data = await searchMovies(query);
-                setMovies(data);
+                const results = await searchMovies(query);
+                setMovies(results);
             } catch (error) {
-                console.error('Error searching movies:', error);
+                console.error('Error fetching search results:', error);
             }
         };
         fetchMoviesPage();
@@ -24,18 +24,18 @@ function MoviesPage() {
 
     const handleSearchSubmit = (event) => {
         event.preventDefault();
-        const searchForm = event.target;
-        const searchValue = searchForm.elements.query.value.trim();
-        if (!searchValue) return;
-        setSearchParams({ query: searchValue });
-        searchForm.reset();
+        const form = event.target;
+        const searchQuery = form.elements.query.value.trim();
+        if (searchQuery === '') return;
+        setSearchParams({ query: searchQuery });
+        form.reset();
     };
 
     return (
-        <div>
+        <div className={s.container}>
             <form className={s.form} onSubmit={handleSearchSubmit}>
-                <input type="text" name='query' placeholder='Search movies...' />
-                <button type='submit'>Search</button>
+                <input className={s.input} type="text" name='query' placeholder='Search movies...' />
+                <button type="submit">Search</button>
             </form>
             {movies.length > 0 && <MovieList movies={movies} />}
         </div>

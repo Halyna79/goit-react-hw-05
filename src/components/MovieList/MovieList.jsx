@@ -11,6 +11,7 @@ function MovieList({ movies }) {
                         <Link
                             to={`/movies/${movie.id}`}
                             state={{ from: location }}
+                            className={s.link}
                         >
                             {movie.title || movie.name}
                         </Link>

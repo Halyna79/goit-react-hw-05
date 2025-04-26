@@ -5,13 +5,13 @@ import { useParams } from 'react-router-dom';
 
 function MovieCast() {
     const { movieId } = useParams();
-    const { cast, setCast } = useState([]);
+    const [cast, setCast]  = useState([]);
 
     useEffect(() => {
         async function fetchCast() {
             try {
                 const data = await getMovieCast(movieId);
-                setCast(data.cast);
+                setCast(data);
             } catch (error) {
                 console.error('Error fetching cast:', error);
             }
@@ -28,13 +28,19 @@ function MovieCast() {
             {cast.map(actor => (
                 <li key={actor.id} className={s.item}>
                     {actor.profile_path && (
-                        <img
-                            src={`https://image.tmdb.org/t/p/w200${actor.profile_path}`}
-                            alt={actor.name}
-                            width="100"
-                        />
+                        <div className={s.imageBox}>
+                            <img className={s.image}
+                                src={`https://image.tmdb.org/t/p/w200${actor.profile_path}`}
+                                alt={actor.name}
+                                width="100"
+                            />
+                        </div>
                     )}
-                    <p><strong>{actor.name}</strong> as {actor.character}</p>
+
+                    <div className={s.desc}>
+                        <h3 className={s.name}>{actor.name}</h3>
+                        <p className={s.character}>{actor.character}</p>
+                    </div>
                 </li>
             ))}
         </ul>
